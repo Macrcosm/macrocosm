@@ -1,0 +1,12 @@
+appId: beta.continue
+productName: Macrocosm
+copyright: Copyright © 2023 Continue
+directories:
+  output: dist
+  buildResources: resources
+files:
+  - from: .
+    filter:
+      - package.json
+      - app
+publish: null
