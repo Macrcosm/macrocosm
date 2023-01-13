@@ -1,15 +1,14 @@
 import { FcGoogle } from "react-icons/fc";
 import { useRouter } from "next/router";
-
 import DiscordIcon from "../../../icons/Discord";
 import Button from "../../shared/button/Button";
 import Image from "../../shared/image";
 import illustration from "../../../public/images/image1.jpg";
-import LogoIcon from "../../../icons/Logo";
 import { useAuthContext } from "../../../hooks/useContext";
 import {useEffect} from "react";
 import {supabase} from "../../../utils/supabase";
-import * as electron from "electron";
+import Logo from "../../shared/logo";
+
 interface Props {
     loggedIn: boolean;
 }
@@ -22,20 +21,18 @@ export default function LoginPage(props: Props) {
         }
     }, [props.loggedIn]);
     const loginWithDiscord = async () => {
-        // const { error } = await supabase.auth.signInWithOAuth({
-        //     provider: 'discord',
-        // });
-        await electron.shell.openExternal('https://qotajwkuxobaecxfgeuo.supabase.co/auth/v1/authorize?provider=discord')
+        const { error } = await supabase.auth.signInWithOAuth({
+            provider: 'discord'
+        });
     }
     const loginWithGoogle = async () => {
-        // const { error } = await supabase.auth.signInWithOAuth({
-        //     provider: 'google'
-        // });
-        await electron.shell.openExternal('https://qotajwkuxobaecxfgeuo.supabase.co/auth/v1/authorize?provider=google')
+        const { error } = await supabase.auth.signInWithOAuth({
+            provider: 'google'
+        });
     }
     return (
         <div className="px-10 py-6 min-h-screen">
-            <LogoIcon />
+            <Logo />
             <div className="flex justify-around items-center h-full ">
                 <div className="flex gap-6 flex-col items-center h-full">
                     <h2 className="flex flex-row text-[40px] font-medium">

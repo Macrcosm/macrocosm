@@ -22,6 +22,7 @@
   --color-border: #373737;
   --color-black: 0 0 0;
   --color-yellow: #fbbc04;
+  --header-height: 78px;
 }
 
 * {
@@ -74,6 +75,12 @@ a {
     column-count: var(--column-count);
     column-gap: var(--column-gap);
     width: max-content;
+  }
+  .sripe-shadow {
+    --focusBoxShadow: 0 0 0 3px hsla(223, 91%, 53%, 25%),
+      0 1px 1px 0 rgba(255, 255, 255, 0.12);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5), 0px 1px 6px rgba(0, 0, 0, 0.25),
+      var(--focusBoxShadow);
   }
 
   /* .waterfall > *:not(:last-child)  */

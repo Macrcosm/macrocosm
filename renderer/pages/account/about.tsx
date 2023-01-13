@@ -1,14 +1,14 @@
 import Head from "next/head";
 
-import AccountAboutPage from "../../components/containers/account-about-page/AccountAboutPage";
+import UserAboutPage from "../../components/containers/user-about-page/UserAboutPage";
 
 export default function About() {
   return (
     <>
       <Head>
-        <title> Account About - Macrocosm </title>
+        <title> About - Macrocosm </title>
       </Head>
-      <AccountAboutPage />
+      <UserAboutPage />
     </>
   );
 }

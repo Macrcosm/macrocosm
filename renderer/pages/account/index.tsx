@@ -1,5 +1,5 @@
 import Head from "next/head";
-import AccountPage from "../../components/containers/account-page/AccountPage";
+import UserAccountPage from "../../components/containers/user-account-page/UserAccountPage";
 
 export default function Account() {
   return (
@@ -7,7 +7,7 @@ export default function Account() {
       <Head>
         <title>Account - Macrocosm </title>
       </Head>
-      <AccountPage />
+      <UserAccountPage />
     </>
   );
 }

@@ -2,18 +2,18 @@ import { Menu } from "@headlessui/react";
 
 import Link from "../../shared/link";
 import { useAuthContext } from "../../../hooks/useContext";
+import Avatar from "../../shared/avatar/Avatar";
 
 const LogOutDropdown = () => {
   const { logoutUser } = useAuthContext();
+
   return (
     <Menu as="div" className="relative">
       <Menu.Button>
-        <div className="rounded-full h-9 aspect-square bg-yellow grid place-items-center">
-          <p>A</p>
-        </div>
+        <Avatar name="Alok" />
       </Menu.Button>
       <Menu.Items
-        className="absolute right-0 mt-2 z-10 bg-black-chip ring-1 ring-border rounded-xl text-sm 
+        className="absolute z-20 right-0 mt-2 bg-black-chip ring-1 ring-border rounded-xl text-sm 
         child:text-left py-2 child:py-2 child:px-5 child:block 
       "
       >

@@ -14,18 +14,29 @@ export default function PromptPricingPage() {
           <div className="flex flex-wrap gap-4 mt-6 justify-center items-start">
             <PricingCard
               features={[
-                "Unlimited Prompt Building",
-                "100 Descriptive Prompt Generation",
+                {
+                  name: "Unlimited Prompt Building",
+                  isAvailable: true,
+                },
+                {
+                  name: "100 Descriptive Prompt Generation",
+                  isAvailable: true,
+                },
               ]}
               plan="Free"
               price={0}
-              action="Sign in"
               type="monthly"
             />
             <PricingCard
               features={[
-                "5000 SCredits*",
-                "2000 Descriptive Prompt Generation",
+                {
+                  name: "5000 SCredits",
+                  isAvailable: true,
+                },
+                {
+                  name: "2000 Descriptive Prompt Generation",
+                  isAvailable: true,
+                },
               ]}
               plan="Prompt Basic"
               price={15}
@@ -35,8 +46,14 @@ export default function PromptPricingPage() {
             <PricingCard
               isBestPlan
               features={[
-                "15000 SCredits*",
-                "Unlimited Descriptive Prompt Generation",
+                {
+                  name: "15000 SCredits",
+                  isAvailable: true,
+                },
+                {
+                  name: "Unlimited Descriptive Prompt Generation",
+                  isAvailable: true,
+                },
               ]}
               plan="Prompt Pro"
               price={25}
@@ -49,18 +66,29 @@ export default function PromptPricingPage() {
           <div className="flex flex-wrap gap-4 mt-6 justify-center items-start">
             <PricingCard
               features={[
-                "Unlimited Prompt Building",
-                "100 Descriptive Prompt Generation",
+                {
+                  name: "Unlimited Prompt Building",
+                  isAvailable: true,
+                },
+                {
+                  name: "100 Descriptive Prompt Generation",
+                  isAvailable: true,
+                },
               ]}
               plan="Free"
               price={0}
-              action="Sign in"
               type="yearly"
             />
             <PricingCard
               features={[
-                "5000 SCredits*",
-                "2000 Descriptive Prompt Generation",
+                {
+                  name: "5000 SCredits",
+                  isAvailable: true,
+                },
+                {
+                  name: "2000 Descriptive Prompt Generation",
+                  isAvailable: true,
+                },
               ]}
               plan="Prompt Basic"
               price={5 * 12}
@@ -70,8 +98,14 @@ export default function PromptPricingPage() {
             <PricingCard
               isBestPlan
               features={[
-                "15000 SCredits*",
-                "Unlimited Descriptive Prompt Generation",
+                {
+                  name: "15000 SCredits",
+                  isAvailable: true,
+                },
+                {
+                  name: "Unlimited Descriptive Prompt Generation",
+                  isAvailable: true,
+                },
               ]}
               plan="Prompt Pro"
               price={10 * 12}

@@ -1,6 +1,6 @@
 import { FcGoogle } from "react-icons/fc";
 
-import AccountLayout from "../../shared/layout/AccountLayout";
+import AccountLayout from "../../shared/layout/UserAccountLayout";
 import DiscordIcon from "../../../icons/Discord";
 import TextArea from "../../shared/form/Textarea";
 

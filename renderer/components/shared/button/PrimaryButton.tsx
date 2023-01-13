@@ -6,13 +6,13 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const PrimaryButton: FC<ButtonProps> = (props) => {
-  const { variant, className, ...rest } = props;
+  const { variant, children, className, ...rest } = props;
 
   return (
     <button
       {...rest}
       className={classnames(
-        "rounded-xl px-5 p-3 hover:opacity-70 font-medium",
+        "rounded-xl px-5 py-3 hover:opacity-70 font-medium",
         variant === "primary"
           ? "bg-primary"
           : variant === "secondary"
@@ -22,7 +22,9 @@ const PrimaryButton: FC<ButtonProps> = (props) => {
           : "bg-black-chip",
         className
       )}
-    />
+    >
+      {children}
+    </button>
   );
 };
 

@@ -4,7 +4,14 @@ import Link from "../link";
 
 export default function Logo() {
   return (
-    <Link href="/">
+    <Link
+      href={{
+        pathname: "/",
+        query: {
+          folder: "all",
+        },
+      }}
+    >
       <LogoIcon />
     </Link>
   );

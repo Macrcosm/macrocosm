@@ -11,7 +11,7 @@ export const AuthContext = createContext(
 
 export const AuthContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const router = useRouter();
-  const [authUser, setAuthUser] = useState<object | null>(() => null);
+  const [authUser, setAuthUser] = useState<object | null>(() => ({}));
 
   const loginUser = () => {
     setAuthUser({

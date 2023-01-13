@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Home - Macrocosm</title>
+        <title>Home - Macrocosm </title>
       </Head>
       <HomePage />
     </>

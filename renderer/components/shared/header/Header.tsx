@@ -22,9 +22,9 @@ const Header: FC<PropsWithChildren & { transparent?: boolean }> = (props) => {
         {authUser ? (
           <>
             <Link
-              href="/community?sort=trending"
+              href="/community/creations?sort=trending"
               className={
-                router.pathname.includes("/community") ? "text-pink" : ""
+                router.pathname.includes("/community/") ? "text-pink" : ""
               }
             >
               Community

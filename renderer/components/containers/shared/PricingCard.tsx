@@ -1,13 +1,25 @@
 import { FC } from "react";
+import {
+  AiOutlineCloseCircle,
+  AiOutlineCheckCircle,
+  AiOutlineMinusCircle,
+} from "react-icons/ai";
 
-import CheckCircleIcon from "../../../icons/CheckCircle";
 import Card from "../../shared/card";
 import PrimaryButton from "../../shared/button/PrimaryButton";
+import { useRouter } from "next/router";
+import { useAuthContext } from "../../../hooks/useContext";
+
+export interface Feature {
+  name: string;
+  isAvailable: boolean;
+  isDisabled?: boolean;
+}
 
 interface PricingCardProps {
   plan: string;
   price: number;
-  features: string[];
+  features: Feature[];
   isBestPlan?: boolean;
   type?: "monthly" | "yearly";
   action?: string;
@@ -26,6 +38,20 @@ const PricingCard: FC<PricingCardProps> = (props) => {
     isDowngrade,
     isSelected,
   } = props;
+  const router = useRouter();
+  const { authUser } = useAuthContext();
+
+  const onClick = () => {
+    if (authUser) {
+      router.push({
+        pathname: "/checkout",
+        query: { pricingPlan: JSON.stringify(props) },
+      });
+    } else {
+      router.push("/login");
+    }
+  };
+
   return (
     <Card
       className={`flex flex-col gap-2.5 w-72 ${
@@ -40,19 +66,28 @@ const PricingCard: FC<PricingCardProps> = (props) => {
         </p>
       </div>
       {features?.map((feature, index) => (
-        <div key={index} className="flex items-center gap-2.5">
-          <CheckCircleIcon />
-          <p>{feature}</p>
+        <div key={index} className="flex items-start gap-2.5">
+          <div>
+            {feature.isAvailable ? (
+              <AiOutlineCheckCircle size={24} />
+            ) : feature.isDisabled ? (
+              <AiOutlineMinusCircle size={24} />
+            ) : (
+              <AiOutlineCloseCircle size={24} />
+            )}
+          </div>
+          <p>{feature.name}</p>
         </div>
       ))}
-      {action && (
+      {(!authUser || action) && (
         <PrimaryButton
           variant={
             isBestPlan ? "secondary" : isDowngrade ? "tertiary" : "primary"
           }
           className="w-max text-sm"
+          onClick={onClick}
         >
-          {action}
+          {authUser ? action : "Sign In"}
         </PrimaryButton>
       )}
     </Card>
