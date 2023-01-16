@@ -17,15 +17,14 @@
   },
   "build": {
     "extraResources": [
-      "./python_scripts/**",
+      "./win-api/**/**",
       "./configs/**"
     ]
   },
   "dependencies": {
     "electron-deeplink": "^1.0.10",
     "electron-serve": "^1.1.0",
-    "electron-store": "^8.1.0",
-    "python-shell": "^3.0.1"
+    "electron-store": "^8.1.0"
   },
   "devDependencies": {
     "@headlessui-float/react": "^0.10.1",

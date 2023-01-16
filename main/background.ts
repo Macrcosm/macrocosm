@@ -1,9 +1,8 @@
 import { app } from 'electron';
 import serve from 'electron-serve';
 import { createWindow } from './helpers';
-import {spawn} from "child_process";
+import {exec, execFile} from "child_process";
 import path from "path";
-import {PythonShell} from "python-shell";
 const { Deeplink } = require('electron-deeplink');
 
 const isProd: boolean = process.env.NODE_ENV === 'production';
@@ -28,24 +27,23 @@ if (isProd) {
       await mainWindow.loadURL(`http://localhost:${port}/${link.split('macrocosm://callback/')[1]}`);
     }
   });
-  let pyshell = new PythonShell(path.join(app.getAppPath(), 'python_scripts/api.py'));
-  pyshell.on('message', function(message) {
-    console.log('************************************');
-    console.log(message);
-    console.log('************************************');
-  });
-  pyshell.on('stderr', function(message) {
-    console.log('------------------------------------');
-    console.log(message);
-    console.log('------------------------------------');
-  });
-
-  pyshell.end(function (err) {
-    if (err){
-      throw err;
-    }
-    console.log('finished');
-  });
+  execFile(
+      path.join(app.getAppPath(), 'win-api/api.exe'),
+      {
+        windowsHide: true,
+      },
+      (err, stdout, stderr) => {
+        if (err) {
+          console.log(err);
+        }
+        if (stdout) {
+          console.log(stdout);
+        }
+        if (stderr) {
+          console.log(stderr);
+        }
+      }
+  )
 
   if (isProd) {
     await mainWindow.loadURL('app://./index.html');
@@ -58,4 +56,12 @@ if (isProd) {
 
 app.on('window-all-closed', () => {
   app.quit();
+  exec(`taskkill /f /t /im app.exe`, (err, stdout, stderr) => {
+    if (err) {
+      console.log(err)
+      return;
+    }
+    console.log(`stdout: ${stdout}`);
+    console.log(`stderr: ${stderr}`);
+  });
 });
