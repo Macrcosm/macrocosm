@@ -23,6 +23,7 @@ from ldm.models.diffusion.dpm_solver import DPMSolverSampler
 from ldm.models.diffusion.plms import PLMSSampler
 from ldm.util import instantiate_from_config
 from gevent.pywsgi import WSGIServer
+from flask_cors import CORS, cross_origin
 
 torch.set_grad_enabled(False)
 
@@ -193,6 +194,7 @@ def put_watermark(img, wm_encoder=None):
 
 
 class MacrocosmApi(Resource):
+    @cross_origin()
     def post(self):
         json = request.get_json()
         opt = parse_args()
@@ -275,5 +277,6 @@ class MacrocosmApi(Resource):
 api.add_resource(MacrocosmApi, '/')
 
 if __name__ == "__main__":
+    CORS(app)
     http_server = WSGIServer(('', 5000), app)
     http_server.serve_forever()

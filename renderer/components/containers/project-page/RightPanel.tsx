@@ -8,10 +8,12 @@ import { modalOptions } from "../../../data/mock";
 import PrimaryButton from "../../shared/button/PrimaryButton";
 import MidJourneyDiscordPopover from "./MidJourneyDiscordPopover";
 import { useAiModalsContext } from "../../../hooks/useContext";
+import {generateImageApi} from "../../../services/data.service";
 
 interface RightPanelProps {
   mainIdea: string;
   negatives: string;
+  generateImage: Function;
 }
 
 const RightPanel: FC<RightPanelProps> = (props) => {
@@ -44,6 +46,7 @@ const RightPanel: FC<RightPanelProps> = (props) => {
         <PrimaryButton
           variant="secondary"
           className="sticky flex gap-2 self-start bottom-5 left-5"
+          onClick={() => props.generateImage()}
         >
           Generate
           <BsImageFill size={18} className="rounded-md" />

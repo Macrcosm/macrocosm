@@ -18,7 +18,7 @@ export default function CommunityProfilePage() {
       </button>
       <div className="container px-4">
         <div className="flex items-start gap-20">
-          <Avatar />
+          <Avatar name={"A"}/>
         </div>
       </div>
     </div>

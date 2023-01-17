@@ -14,6 +14,7 @@ const menu_position = {
 
 export interface CanvasContextMenuProps {
   openShareImageDialog: () => void;
+  image: any;
 }
 
 const CanvasContextMenu: FC<CanvasContextMenuProps> = (props) => {
@@ -40,14 +41,9 @@ const CanvasContextMenu: FC<CanvasContextMenuProps> = (props) => {
   return (
     <Menu as="div" className="relative">
       <Menu.Button onContextMenu={onContextMenu} as="div">
-        <ImageFill
-          src={illustration}
-          alt=""
-          className=" object-cover"
-          height={480}
-          width={480}
-          sizes="420px"
-        />
+        {
+          props.image
+        }
       </Menu.Button>
       <Transition show={isOpen}>
         <Menu.Items

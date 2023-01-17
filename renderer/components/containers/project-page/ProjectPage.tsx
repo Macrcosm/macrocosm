@@ -16,6 +16,9 @@ import useDiscloser from "../../../hooks/useDiscloser";
 import {useRouter} from "next/router";
 import {supabase} from "../../../utils/supabase";
 import {MacroNotification} from "../../shared/notification/notification";
+import illustration from "../../../public/images/image1.jpg";
+import ImageFill from "../../shared/image/ImageFill";
+import {generateImageApi} from "../../../services/data.service";
 
 const ProjectPage: FC = () => {
   const { close, isOpen, open } = useDiscloser(false);
@@ -25,6 +28,7 @@ const ProjectPage: FC = () => {
   const [mainIdea, setMainIdea] = useState("");
   const [negatives, setNegatives] = useState("");
   const [inTheStyleOf, setInTheStyleOf] = useState([]);
+  const[image, setImage] = useState('');
   useEffect(() => {
     supabase.auth.getUser().then(userData => {
       console.log(userData.data.user);
@@ -40,6 +44,11 @@ const ProjectPage: FC = () => {
       setShowNotification(true);
     }
   }, [router.query]);
+  const generateImage = async () => {
+    await generateImageApi({prompt: mainIdea})
+        .then(res => setImage(res.data.image))
+        .catch(error => console.log(error.response));
+  }
   return (
     <>
       {/*<LoginDialog />*/}
@@ -71,8 +80,17 @@ const ProjectPage: FC = () => {
             <LeftPanel mainIdea={mainIdea} setMainIdea={setMainIdea} negatives={negatives}
                        setNegatives={setNegatives} inTheStyleOf={inTheStyleOf}
                        setInTheStyleOf={setInTheStyleOf}/>
-            <Canvas openShareImageDialog={open} />
-            <RightPanel mainIdea={mainIdea} negatives={negatives}/>
+            <Canvas openShareImageDialog={open} image={
+              <ImageFill
+                  src={illustration}
+                  alt=""
+                  className=" object-cover"
+                  height={480}
+                  width={480}
+                  sizes="420px"
+              />
+            }/>
+            <RightPanel mainIdea={mainIdea} negatives={negatives} generateImage={generateImage}/>
           </div>
         </AiModalsProvider>
         <MacroNotification show={showNotification} setShow={setShowNotification} type={notification?.type!}
