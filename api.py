@@ -24,6 +24,7 @@ from ldm.models.diffusion.plms import PLMSSampler
 from ldm.util import instantiate_from_config
 from gevent.pywsgi import WSGIServer
 from flask_cors import CORS, cross_origin
+import random
 
 torch.set_grad_enabled(False)
 
@@ -198,7 +199,7 @@ class MacrocosmApi(Resource):
     def post(self):
         json = request.get_json()
         opt = parse_args()
-        seed_everything(opt.seed)
+        seed_everything(random.randint(0, 2147483647))
 
         config = OmegaConf.load(f"{opt.config}")
         model = load_model_from_config(config, f"{opt.ckpt}")
@@ -206,6 +207,11 @@ class MacrocosmApi(Resource):
         device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
         model = model.to(device)
 
+        # if opt.plms:
+        #     sampler = PLMSSampler(model)
+        # elif opt.dpm:
+        #     sampler = DPMSolverSampler(model)
+        # else:
         if opt.plms:
             sampler = PLMSSampler(model)
         elif opt.dpm:

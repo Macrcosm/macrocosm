@@ -82,7 +82,7 @@ const ProjectPage: FC = () => {
                        setInTheStyleOf={setInTheStyleOf}/>
             <Canvas openShareImageDialog={open} image={
               <ImageFill
-                  src={image !== '' ? image : illustration}
+                  src={image !== '' ? `data:image/png;base64,${image}` : illustration}
                   alt=""
                   className=" object-cover"
                   height={480}

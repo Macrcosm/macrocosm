@@ -27,23 +27,23 @@ if (isProd) {
       await mainWindow.loadURL(`http://localhost:${port}/${link.split('macrocosm://callback/')[1]}`);
     }
   });
-  execFile(
-      path.join(app.getAppPath(), 'win-api/api.exe'),
-      {
-        windowsHide: true,
-      },
-      (err, stdout, stderr) => {
-        if (err) {
-          console.log(err);
-        }
-        if (stdout) {
-          console.log(stdout);
-        }
-        if (stderr) {
-          console.log(stderr);
-        }
-      }
-  )
+  // execFile(
+  //     path.join(app.getAppPath(), 'win-api/api.exe'),
+  //     {
+  //       windowsHide: true,
+  //     },
+  //     (err, stdout, stderr) => {
+  //       if (err) {
+  //         console.log(err);
+  //       }
+  //       if (stdout) {
+  //         console.log(stdout);
+  //       }
+  //       if (stderr) {
+  //         console.log(stderr);
+  //       }
+  //     }
+  // )
 
   if (isProd) {
     await mainWindow.loadURL('app://./index.html');
