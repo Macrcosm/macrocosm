@@ -194,9 +194,18 @@ def put_watermark(img, wm_encoder=None):
     return img
 
 
+current_percent = 0
+
+
 class MacrocosmApi(Resource):
     @cross_origin()
+    def get(self):
+        return jsonify({'current_percent': current_percent})
+
+    @cross_origin()
     def post(self):
+        global current_percent
+        current_percent = 0
         json = request.get_json()
         opt = parse_args()
         seed_everything(random.randint(0, 2147483647))
@@ -207,11 +216,11 @@ class MacrocosmApi(Resource):
         device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
         model = model.to(device)
 
-        # if opt.plms:
-        #     sampler = PLMSSampler(model)
-        # elif opt.dpm:
-        #     sampler = DPMSolverSampler(model)
-        # else:
+        def image_callback(a, b):
+            global current_percent
+            current_percent = (100 * b) / opt.steps
+            return True
+
         if opt.plms:
             sampler = PLMSSampler(model)
         elif opt.dpm:
@@ -261,6 +270,7 @@ class MacrocosmApi(Resource):
                                                 batch_size=opt.n_samples,
                                                 shape=shape,
                                                 verbose=False,
+                                                img_callback=image_callback,
                                                 unconditional_guidance_scale=opt.scale,
                                                 unconditional_conditioning=uc,
                                                 eta=opt.ddim_eta,
@@ -284,5 +294,4 @@ api.add_resource(MacrocosmApi, '/')
 
 if __name__ == "__main__":
     CORS(app)
-    http_server = WSGIServer(('', 5000), app)
-    http_server.serve_forever()
+    app.run(threaded=True)

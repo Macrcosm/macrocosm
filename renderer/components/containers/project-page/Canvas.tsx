@@ -5,7 +5,9 @@ import CanvasContextMenu, { CanvasContextMenuProps } from "./CanvasContextMenu";
 import illustration from "../../../public/images/image1.jpg";
 import ImageFill from "../../shared/image/ImageFill";
 
-interface CanvasProps extends CanvasContextMenuProps {}
+interface CanvasProps extends CanvasContextMenuProps {
+  percent: number;
+}
 
 const Canvas: FC<CanvasProps> = (props) => {
   const { openShareImageDialog } = props;
@@ -15,9 +17,12 @@ const Canvas: FC<CanvasProps> = (props) => {
       <div className="grid place-content-center flex-1 place-items-center">
         <CanvasContextMenu openShareImageDialog={openShareImageDialog} image={props.image}/>
       </div>
-      <div className="w-[400px] self-center mb-10">
-        <ProgressBar progress={40} />
-      </div>
+      {
+        props.percent !== 0 && props.percent !== 100 &&
+        <div className="w-[400px] self-center mb-10">
+          <ProgressBar progress={props.percent} />
+        </div>
+      }
     </div>
   );
 };

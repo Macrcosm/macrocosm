@@ -18,7 +18,7 @@ import {supabase} from "../../../utils/supabase";
 import {MacroNotification} from "../../shared/notification/notification";
 import illustration from "../../../public/images/image1.jpg";
 import ImageFill from "../../shared/image/ImageFill";
-import {generateImageApi} from "../../../services/data.service";
+import {generateImageApi, getCurrentImagePercent} from "../../../services/data.service";
 
 const ProjectPage: FC = () => {
   const { close, isOpen, open } = useDiscloser(false);
@@ -26,6 +26,7 @@ const ProjectPage: FC = () => {
   const [notification, setNotification] = useState<{ message: string, title: string, type: string }>();
   const [showNotification, setShowNotification] = useState(false);
   const [mainIdea, setMainIdea] = useState("");
+  const [percent, setPercent] = useState(0);
   const [negatives, setNegatives] = useState("");
   const [inTheStyleOf, setInTheStyleOf] = useState([]);
   const[image, setImage] = useState('');
@@ -44,10 +45,25 @@ const ProjectPage: FC = () => {
       setShowNotification(true);
     }
   }, [router.query]);
+  const getProgress = async () => {
+    const res = await getCurrentImagePercent();
+    if (res.data.current_percent) {
+      setPercent(res.data.current_percent);
+    }
+  }
   const generateImage = async () => {
-    await generateImageApi({prompt: mainIdea})
-        .then(res => setImage(res.data.image))
-        .catch(error => console.log(error.response));
+    setPercent(3);
+    const interval = setInterval(() => {
+      getProgress();
+    }, 2000);
+    const res = await generateImageApi({prompt: mainIdea})
+        .catch(error => {
+          clearInterval(interval);
+          console.log(error.response)
+        });
+    clearInterval(interval);
+    setPercent(100);
+    setImage(res.data.image);
   }
   return (
     <>
@@ -89,7 +105,7 @@ const ProjectPage: FC = () => {
                   width={480}
                   sizes="420px"
               />
-            }/>
+            } percent={percent}/>
             <RightPanel mainIdea={mainIdea} negatives={negatives} generateImage={generateImage}/>
           </div>
         </AiModalsProvider>
