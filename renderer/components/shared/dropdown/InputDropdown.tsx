@@ -5,14 +5,14 @@ import { BiChevronDown } from "react-icons/bi";
 export interface InputDropdownProps {
   label?: string;
   description: string;
-  defaultValue?: number;
+  value: number;
+  setValue: (value) => void;
   min?: number;
   step?: string | number;
 }
 
 const InputDropdown: FC<InputDropdownProps> = (props) => {
-  const { label, description, defaultValue = 1, min = 1, step } = props;
-  const [value, setValue] = useState(defaultValue);
+  const { label, description, min = 1, step, value, setValue } = props;
 
   return (
     <Popover as="div" className="relative">

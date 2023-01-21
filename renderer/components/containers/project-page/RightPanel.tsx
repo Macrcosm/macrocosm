@@ -14,10 +14,12 @@ interface RightPanelProps {
   mainIdea: string;
   negatives: string;
   generateImage: Function;
+  selectedModal: any;
+  advancedData: any,
+  setAdvancedData: (value) => void;
 }
 
 const RightPanel: FC<RightPanelProps> = (props) => {
-  const { selectedModal } = useAiModalsContext();
   return (
     <div className="bg-black-chip/60 w-[328px] divide-y divide-grey-800 flex flex-col h-[calc(100vh-78px)] overflow-y-auto text-sm">
       <div className="p-5">
@@ -38,9 +40,9 @@ const RightPanel: FC<RightPanelProps> = (props) => {
         </div>
       </div>
       <div className="mb-5 p-5 flex-1">
-        <AdvancedOptions />
+        <AdvancedOptions advancedData={props.advancedData} setAdvancedData={props.setAdvancedData} selectedModal={props.selectedModal}/>
       </div>
-      {selectedModal.key === modalOptions[1].key ? (
+      {props.selectedModal?.key === modalOptions[1].key ? (
         <MidJourneyDiscordPopover />
       ) : (
         <PrimaryButton

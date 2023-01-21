@@ -131,7 +131,7 @@ def parse_args():
     parser.add_argument(
         "--n_samples",
         type=int,
-        default=3,
+        default=1,
         help="how many samples to produce for each given prompt. A.k.a batch size",
     )
     parser.add_argument(
@@ -208,7 +208,10 @@ class MacrocosmApi(Resource):
         current_percent = 0
         json = request.get_json()
         opt = parse_args()
-        seed_everything(random.randint(0, 2147483647))
+        seed = random.randint(0, 2147483647)
+        if json['seed'] != 0 :
+            seed = json['seed']
+        seed_everything(seed)
 
         config = OmegaConf.load(f"{opt.config}")
         model = load_model_from_config(config, f"{opt.ckpt}")
@@ -218,7 +221,7 @@ class MacrocosmApi(Resource):
 
         def image_callback(a, b):
             global current_percent
-            current_percent = (100 * b) / opt.steps
+            current_percent = (100 * b) / json['steps']
             return True
 
         if opt.plms:
@@ -233,7 +236,7 @@ class MacrocosmApi(Resource):
         wm_encoder = WatermarkEncoder()
         wm_encoder.set_watermark('bytes', wm.encode('utf-8'))
 
-        batch_size = opt.n_samples
+        batch_size = json['imageCount']
         n_rows = opt.n_rows if opt.n_rows > 0 else batch_size
         if not opt.from_file:
             prompt = json['prompt']
@@ -249,7 +252,7 @@ class MacrocosmApi(Resource):
 
         start_code = None
         if opt.fixed_code:
-            start_code = torch.randn([opt.n_samples, opt.C, opt.H // opt.f, opt.W // opt.f], device=device)
+            start_code = torch.randn([json['imageCount'], opt.C, json['height'] // opt.f, json['width'] // opt.f], device=device)
 
         precision_scope = autocast if opt.precision == "autocast" else nullcontext
         with torch.no_grad(), \
@@ -259,20 +262,20 @@ class MacrocosmApi(Resource):
             for n in trange(opt.n_iter, desc="Sampling"):
                 for prompts in tqdm(data, desc="data"):
                     uc = None
-                    if opt.scale != 1.0:
+                    if json['sfgScale'] != 1.0:
                         negative_prompts = json['negative_prompt']
                         uc = model.get_learned_conditioning(batch_size * [negative_prompts])
                     if isinstance(prompts, tuple):
                         prompts = list(prompts)
                     c = model.get_learned_conditioning(prompts)
-                    shape = [opt.C, opt.H // opt.f, opt.W // opt.f]
-                    samples, _ = sampler.sample(S=opt.steps,
+                    shape = [opt.C, json['height'] // opt.f, json['width'] // opt.f]
+                    samples, _ = sampler.sample(S=json['steps'],
                                                 conditioning=c,
-                                                batch_size=opt.n_samples,
+                                                batch_size=json['imageCount'],
                                                 shape=shape,
                                                 verbose=False,
                                                 img_callback=image_callback,
-                                                unconditional_guidance_scale=opt.scale,
+                                                unconditional_guidance_scale=json['sfgScale'],
                                                 unconditional_conditioning=uc,
                                                 eta=opt.ddim_eta,
                                                 x_T=start_code)
@@ -288,7 +291,7 @@ class MacrocosmApi(Resource):
                         img.save(img_byte_arr, format='PNG')
                         img_str = base64.b64encode(img_byte_arr.getvalue())
                         images.append(img_str)
-            return jsonify({'image': str(images[0], 'utf-8')})
+            return jsonify({'images': str(images, 'utf-8')})
 
 
 api.add_resource(MacrocosmApi, '/')
