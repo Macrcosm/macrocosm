@@ -260,7 +260,8 @@ class MacrocosmApi(Resource):
                 for prompts in tqdm(data, desc="data"):
                     uc = None
                     if opt.scale != 1.0:
-                        uc = model.get_learned_conditioning(batch_size * [""])
+                        negative_prompts = json['negative_prompt']
+                        uc = model.get_learned_conditioning(batch_size * [negative_prompts])
                     if isinstance(prompts, tuple):
                         prompts = list(prompts)
                     c = model.get_learned_conditioning(prompts)

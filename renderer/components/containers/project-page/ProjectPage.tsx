@@ -56,14 +56,16 @@ const ProjectPage: FC = () => {
     const interval = setInterval(() => {
       getProgress();
     }, 2000);
-    const res = await generateImageApi({prompt: mainIdea})
+    const res = await generateImageApi({prompt: mainIdea, negative_prompt: negatives})
         .catch(error => {
           clearInterval(interval);
           console.log(error.response)
         });
     clearInterval(interval);
     setPercent(100);
-    setImage(res.data.image);
+    if (res && res.data && res.data.image) {
+      setImage(res.data.image);
+    }
   }
   return (
     <>
