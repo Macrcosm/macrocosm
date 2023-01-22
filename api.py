@@ -290,8 +290,8 @@ class MacrocosmApi(Resource):
                         img_byte_arr = io.BytesIO()
                         img.save(img_byte_arr, format='PNG')
                         img_str = base64.b64encode(img_byte_arr.getvalue())
-                        images.append(img_str)
-            return jsonify({'images': str(images, 'utf-8')})
+                        images.append(str(img_str, 'utf-8'))
+            return jsonify({'images': images})
 
 
 api.add_resource(MacrocosmApi, '/')
