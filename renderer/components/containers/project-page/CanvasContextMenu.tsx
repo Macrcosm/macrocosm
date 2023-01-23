@@ -14,7 +14,7 @@ const menu_position = {
 
 export interface CanvasContextMenuProps {
   openShareImageDialog: () => void;
-  image: any;
+  image?: any;
 }
 
 const CanvasContextMenu: FC<CanvasContextMenuProps> = (props) => {

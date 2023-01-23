@@ -34,7 +34,6 @@ const ProjectPage: FC = () => {
     const [percent, setPercent] = useState(0);
     const [negatives, setNegatives] = useState("");
     const [inTheStyleOf, setInTheStyleOf] = useState([]);
-    const [image, setImage] = useState('');
     const [images, setImages] = useState(['']);
     const {selectedModal} = useAiModalsContext();
     const [advancedData, setAdvancedData] = useState<any>({
@@ -122,8 +121,7 @@ const ProjectPage: FC = () => {
         setPercent(0);
         clearInterval(interval);
         if (res && res.data && res.data.images) {
-            setImages(res.data.images);
-            setImage(res.data.images[0]);
+            setImages([...res.data.images, ...images]);
         }
     }
     return (
@@ -157,16 +155,7 @@ const ProjectPage: FC = () => {
                         <LeftPanel mainIdea={mainIdea} setMainIdea={setMainIdea} negatives={negatives}
                                    setNegatives={setNegatives} inTheStyleOf={inTheStyleOf}
                                    setInTheStyleOf={setInTheStyleOf}/>
-                        <Canvas openShareImageDialog={open} image={
-                            <ImageFill
-                                src={image !== '' ? `data:image/png;base64,${image}` : illustration}
-                                alt=""
-                                className=" object-cover"
-                                height={480}
-                                width={480}
-                                sizes="420px"
-                            />
-                        } percent={percent}/>
+                        <Canvas openShareImageDialog={open} images={images.length > 0 ? images : [illustration]} percent={percent}/>
                         <RightPanel mainIdea={mainIdea} negatives={negatives} generateImage={generateImage}
                                     setAdvancedData={setAdvancedData} advancedData={advancedData}
                                     selectedModal={selectedModal}/>

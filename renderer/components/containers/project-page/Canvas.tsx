@@ -7,6 +7,7 @@ import ImageFill from "../../shared/image/ImageFill";
 
 interface CanvasProps extends CanvasContextMenuProps {
   percent: number;
+  images: any[];
 }
 
 const Canvas: FC<CanvasProps> = (props) => {
@@ -14,8 +15,21 @@ const Canvas: FC<CanvasProps> = (props) => {
 
   return (
     <div className="flex-1 flex flex-col justify-between h-[calc(100vh-78px)] overflow-hidden">
-      <div className="grid place-content-center flex-1 place-items-center">
-        <CanvasContextMenu openShareImageDialog={openShareImageDialog} image={props.image}/>
+      <div className={`flex-1 flex gap-3 mx-3 overflow-auto items-center ${props.images.length === 1 ? "justify-center" : "justify-between"}`}>
+          {
+              props.images.map((image, index) => {
+                return (
+                    <CanvasContextMenu key={index} openShareImageDialog={openShareImageDialog} image={<ImageFill
+                        src={image !== '' ? `data:image/png;base64,${image}` : illustration}
+                        alt=""
+                        className=" object-cover"
+                        height={480}
+                        width={480}
+                        sizes="420px"
+                    />}/>
+                )
+              })
+          }
       </div>
       {
         props.percent !== 0 && props.percent !== 100 &&
