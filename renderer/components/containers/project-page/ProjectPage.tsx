@@ -155,7 +155,7 @@ const ProjectPage: FC = () => {
                         <LeftPanel mainIdea={mainIdea} setMainIdea={setMainIdea} negatives={negatives}
                                    setNegatives={setNegatives} inTheStyleOf={inTheStyleOf}
                                    setInTheStyleOf={setInTheStyleOf}/>
-                        <Canvas openShareImageDialog={open} images={images.length > 0 ? images : [illustration]} percent={percent}/>
+                        <Canvas openShareImageDialog={open} images={images} percent={percent}/>
                         <RightPanel mainIdea={mainIdea} negatives={negatives} generateImage={generateImage}
                                     setAdvancedData={setAdvancedData} advancedData={advancedData}
                                     selectedModal={selectedModal}/>

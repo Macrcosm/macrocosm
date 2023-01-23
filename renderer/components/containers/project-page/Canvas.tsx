@@ -15,12 +15,12 @@ const Canvas: FC<CanvasProps> = (props) => {
 
   return (
     <div className="flex-1 flex flex-col justify-between h-[calc(100vh-78px)] overflow-hidden">
-      <div className={`flex-1 flex gap-3 mx-3 overflow-auto items-center ${props.images.length === 1 ? "justify-center" : "justify-between"}`}>
+      <div className={`flex-1 flex gap-3 mx-3 overflow-auto items-center ${props.images.length === 0 ? "justify-center" : "justify-between"}`}>
           {
               props.images.map((image, index) => {
                 return (
                     <CanvasContextMenu key={index} openShareImageDialog={openShareImageDialog} image={<ImageFill
-                        src={image !== '' ? `data:image/png;base64,${image}` : illustration}
+                        src={`data:image/png;base64,${image}`}
                         alt=""
                         className=" object-cover"
                         height={480}
@@ -29,6 +29,17 @@ const Canvas: FC<CanvasProps> = (props) => {
                     />}/>
                 )
               })
+          }
+          {
+              props.images.length === 0 &&
+              <CanvasContextMenu openShareImageDialog={openShareImageDialog} image={<ImageFill
+                  src={illustration}
+                  alt=""
+                  className=" object-cover"
+                  height={480}
+                  width={480}
+                  sizes="420px"
+              />}/>
           }
       </div>
       {
