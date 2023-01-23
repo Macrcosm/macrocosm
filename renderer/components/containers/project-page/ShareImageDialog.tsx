@@ -27,8 +27,8 @@ const ShareImageDialog: FC<ShareImageDialogProps> = (props) => {
           label="Post Journal"
           className="w-[334px] h-32 resize-none"
         />
-        <Dropdown options={[{ key: "0", value: "Feeling Hopeful" }]} />
-        <Dropdown options={[{ key: "0", value: "Macrocosm" }]} />
+        <Dropdown selectedOption={{ key: "0", value: "Feeling Hopeful" }} setSelectedOption={() => {}} options={[{ key: "0", value: "Feeling Hopeful" }]} />
+        <Dropdown selectedOption={{ key: "0", value: "Macrocosm" }} setSelectedOption={() => {}} options={[{ key: "0", value: "Macrocosm" }]} />
 
         <label className="flex items-center gap-5">
           <Checkbox />
