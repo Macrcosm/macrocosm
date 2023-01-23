@@ -12,10 +12,9 @@ interface CanvasProps extends CanvasContextMenuProps {
 
 const Canvas: FC<CanvasProps> = (props) => {
   const { openShareImageDialog } = props;
-
   return (
     <div className="flex-1 flex flex-col justify-between h-[calc(100vh-78px)] overflow-hidden">
-      <div className={`flex-1 flex gap-3 mx-3 overflow-auto items-center ${props.images.length === 0 ? "justify-center" : "justify-between"}`}>
+      <div className={`flex-1 flex gap-3 mx-3 overflow-auto items-center ${props.images.length === 0 || props.images.length === 1 ? "justify-center" : "justify-between"}`}>
           {
               props.images.map((image, index) => {
                 return (

@@ -34,7 +34,7 @@ const ProjectPage: FC = () => {
     const [percent, setPercent] = useState(0);
     const [negatives, setNegatives] = useState("");
     const [inTheStyleOf, setInTheStyleOf] = useState([]);
-    const [images, setImages] = useState(['']);
+    const [images, setImages] = useState<string[]>([]);
     const {selectedModal} = useAiModalsContext();
     const [advancedData, setAdvancedData] = useState<any>({
         width: sizes[0],
@@ -121,6 +121,7 @@ const ProjectPage: FC = () => {
         setPercent(0);
         clearInterval(interval);
         if (res && res.data && res.data.images) {
+            console.log([...res.data.images, ...images].length);
             setImages([...res.data.images, ...images]);
         }
     }
