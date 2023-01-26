@@ -8,12 +8,12 @@ import { useRouter } from "next/router";
 
 interface ProjectCardProps {
   src: string;
+  id: string;
   name: string;
-  i: number;
 }
 
 const ProjectCard: FC<ProjectCardProps> = (props) => {
-  const { name, src, i } = props;
+  const { name, src } = props;
   const { close, open, isOpen } = useDiscloser();
   const router = useRouter();
   const elementRef = useRef<HTMLButtonElement>(null);
@@ -35,16 +35,16 @@ const ProjectCard: FC<ProjectCardProps> = (props) => {
 
   return (
     <Menu as="div" className="relative">
-      <Menu.Button onContextMenu={onContextMenu} ref={elementRef}>
+      <Menu.Button onContextMenu={onContextMenu} onClick={onClick(() => router.push(`/project`))} ref={elementRef}>
         <ImageFill
           width={300}
           height={182}
-          src={src}
+          src={src || "https://picsum.photos/id/345/300/182"}
           alt={name}
           sizes="300px"
           className="rounded-xl"
         />
-        <p className="text-sm pt-3.5 pl-3.5 text-left">{name}</p>
+        <p className="text-sm pt-3.5 pl-3.5 text-left">{name.replace(".build", "")}</p>
       </Menu.Button>
       <Transition show={isOpen}>
         <Menu.Items
