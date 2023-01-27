@@ -135,6 +135,14 @@ ipcMain.on('delete-project', (evt, data) => {
     //delete project
 });
 ipcMain.on('add-images-to-project', (evt, data) => {
+    const userDataPath = app.getPath('userData');
+    const myProjectsPath = userDataPath + "/myProjects.json";
+    const fileContent = fs.readFileSync(myProjectsPath).toString();
+    const parsedProjects = JSON.parse(fileContent);
+    const project = parsedProjects.projects.find(p => p.id === data.id);
+    project.images = data.images;
+    console.log(project)
+    fs.writeFileSync(myProjectsPath, JSON.stringify(parsedProjects));
     //add images to project
 });
 app.on('window-all-closed', () => {

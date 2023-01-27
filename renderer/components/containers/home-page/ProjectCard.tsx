@@ -13,7 +13,7 @@ interface ProjectCardProps {
 }
 
 const ProjectCard: FC<ProjectCardProps> = (props) => {
-  const { name, src } = props;
+  const { name, src, id } = props;
   const { close, open, isOpen } = useDiscloser();
   const router = useRouter();
   const elementRef = useRef<HTMLButtonElement>(null);
@@ -35,7 +35,7 @@ const ProjectCard: FC<ProjectCardProps> = (props) => {
 
   return (
     <Menu as="div" className="relative">
-      <Menu.Button onContextMenu={onContextMenu} onClick={onClick(() => router.push(`/project`))} ref={elementRef}>
+      <Menu.Button onContextMenu={onContextMenu} onClick={onClick(() => router.push(`/project/${id}`))} ref={elementRef}>
         <ImageFill
           width={300}
           height={182}
@@ -60,7 +60,7 @@ const ProjectCard: FC<ProjectCardProps> = (props) => {
           <Menu.Item
             as="button"
             className=" text-left ui-active:bg-black/20"
-            onClick={onClick(() => router.push(`/project`))}
+            onClick={onClick(() => router.push(`/project/${id}`))}
           >
             Open
           </Menu.Item>

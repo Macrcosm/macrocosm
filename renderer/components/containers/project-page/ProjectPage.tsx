@@ -21,11 +21,15 @@ import ImageFill from "../../shared/image/ImageFill";
 import {generateImageApi, getCurrentImagePercent} from "../../../services/data.service";
 import {useAiModalsContext} from "../../../hooks/useContext";
 import {default_modal_options, mid_journey_options} from "../../../data/mock";
+import {ipcRenderer} from "electron";
 
 const {quality, yesNo, upscale, sizes: midSizes, versions: midVersions} = mid_journey_options;
 const {outputs, samples, sizes, versions} = default_modal_options;
 
-const ProjectPage: FC = () => {
+interface ProjectProps {
+    id: string;
+}
+const ProjectPage: FC<ProjectProps> = (props) => {
     const {close, isOpen, open} = useDiscloser(false);
     const router = useRouter();
     const [notification, setNotification] = useState<{ message: string, title: string, type: string }>();
@@ -121,9 +125,13 @@ const ProjectPage: FC = () => {
         setPercent(0);
         clearInterval(interval);
         if (res && res.data && res.data.images) {
-            console.log([...res.data.images, ...images].length);
-            setImages([...res.data.images, ...images]);
+            const finalImages = [...res.data.images, ...images];
+            setImages(finalImages);
+            setImagesIntoProject(finalImages)
         }
+    }
+    const setImagesIntoProject = (imagesData) => {
+        ipcRenderer.send("add-images-to-project", {id: props.id, imagesData});
     }
     return (
         <>
