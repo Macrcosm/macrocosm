@@ -22,6 +22,7 @@ import {generateImageApi, getCurrentImagePercent} from "../../../services/data.s
 import {useAiModalsContext} from "../../../hooks/useContext";
 import {default_modal_options, mid_journey_options} from "../../../data/mock";
 import {ipcRenderer} from "electron";
+import {setupMainEventHandlers} from "../../../services/electron.service";
 
 const {quality, yesNo, upscale, sizes: midSizes, versions: midVersions} = mid_journey_options;
 const {outputs, samples, sizes, versions} = default_modal_options;
@@ -94,6 +95,11 @@ const ProjectPage: FC<ProjectProps> = (props) => {
         supabase.auth.getUser().then(userData => {
             console.log(userData.data.user);
         });
+        getImages();
+        setupMainEventHandlers('get-project-images', (evt, data) => {
+          console.log(data);
+          setImages(data.project.images);
+        });
     }, []);
     useEffect(() => {
         if (Object.keys(router.query).length && Object.keys(router.query).includes('error')) {
@@ -126,12 +132,16 @@ const ProjectPage: FC<ProjectProps> = (props) => {
         clearInterval(interval);
         if (res && res.data && res.data.images) {
             const finalImages = [...res.data.images, ...images];
+            setPercent(0);
             setImages(finalImages);
             setImagesIntoProject(finalImages)
         }
     }
     const setImagesIntoProject = (imagesData) => {
-        ipcRenderer.send("add-images-to-project", {id: props.id, imagesData});
+        ipcRenderer.send("add-images-to-project", {id: props.id, images: imagesData});
+    }
+    const getImages = () => {
+        ipcRenderer.send("get-project-images", {id: props.id});
     }
     return (
         <>

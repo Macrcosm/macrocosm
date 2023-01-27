@@ -39,7 +39,7 @@ const ProjectCard: FC<ProjectCardProps> = (props) => {
         <ImageFill
           width={300}
           height={182}
-          src={src || "https://picsum.photos/id/345/300/182"}
+          src={src ? `data:image/png;base64,${src}` : "https://picsum.photos/id/345/300/182"}
           alt={name}
           sizes="300px"
           className="rounded-xl"

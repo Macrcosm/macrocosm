@@ -140,10 +140,23 @@ ipcMain.on('add-images-to-project', (evt, data) => {
     const fileContent = fs.readFileSync(myProjectsPath).toString();
     const parsedProjects = JSON.parse(fileContent);
     const project = parsedProjects.projects.find(p => p.id === data.id);
-    project.images = data.images;
-    console.log(project)
-    fs.writeFileSync(myProjectsPath, JSON.stringify(parsedProjects));
+    const projectContent = fs.readFileSync(project.path).toString();
+    const parsedProject = JSON.parse(projectContent);
+    parsedProject.images = data.images;
+    fs.writeFileSync(project.path, JSON.stringify(parsedProject));
     //add images to project
+});
+ipcMain.on('get-project-images', (evt, data) => {
+    console.log(data);
+    const userDataPath = app.getPath('userData');
+    const myProjectsPath = userDataPath + "/myProjects.json";
+    const fileContent = fs.readFileSync(myProjectsPath).toString();
+    const parsedProjects = JSON.parse(fileContent);
+    const project = parsedProjects.projects.find(p => p.id === data.id);
+    const projectContent = fs.readFileSync(project.path).toString();
+    const parsedProject = JSON.parse(projectContent);
+    console.log(parsedProject);
+    evt.sender.send('get-project-images', {project: parsedProject});
 });
 app.on('window-all-closed', () => {
     app.quit();
