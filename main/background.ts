@@ -1,10 +1,12 @@
 import {app, dialog, ipcMain} from 'electron';
 import serve from 'electron-serve';
 import {createWindow} from './helpers';
-import {exec, execFile} from "child_process";
+import {exec, execFile, spawn} from "child_process";
 import path from "path";
 import * as fs from "fs-extra";
 import {v4 as uuidv4} from 'uuid';
+const {PythonShell} = require('python-shell');
+const os = require('os');
 
 const {Deeplink} = require('electron-deeplink');
 
@@ -30,23 +32,19 @@ if (isProd) {
             await mainWindow.loadURL(`http://localhost:${port}/${link.split('macrocosm://callback/')[1]}`);
         }
     });
-    // execFile(
-    //     path.join(app.getAppPath(), 'win-api/api.exe'),
-    //     {
-    //       windowsHide: true,
-    //     },
-    //     (err, stdout, stderr) => {
-    //       if (err) {
-    //         console.log(err);
-    //       }
-    //       if (stdout) {
-    //         console.log(stdout);
-    //       }
-    //       if (stderr) {
-    //         console.log(stderr);
-    //       }
-    //     }
-    // )
+    let pyshell = new PythonShell(path.join(app.getAppPath(), 'python_scripts/api.py'), {pythonPath: `${os.homedir()}/miniconda3/python.exe`});
+    pyshell.end(function (err) {
+        if (err){
+            throw err;
+        }
+        console.log('finished');
+    });
+    pyshell.on('message', function(message) {
+        console.log(message);
+    });
+    pyshell.on("error", function (error) {
+        console.log(error);
+    });
 
     if (isProd) {
         await mainWindow.loadURL('app://./index.html');
