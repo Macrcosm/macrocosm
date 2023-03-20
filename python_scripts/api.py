@@ -160,7 +160,7 @@ def parse_args():
     parser.add_argument(
         "--ckpt",
         type=str,
-        default="models/v2-1_768-ema-pruned.ckpt",
+        default=os.environ["HOMEPATH"] + "/Desktop/v2-1_768-ema-pruned.ckpt",
         help="path to checkpoint of model",
     )
     parser.add_argument(
