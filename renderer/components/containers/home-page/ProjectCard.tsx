@@ -17,7 +17,7 @@ const ProjectCard: FC<ProjectCardProps> = (props) => {
   const { close, open, isOpen } = useDiscloser();
   const router = useRouter();
   const elementRef = useRef<HTMLButtonElement>(null);
-  const popperRef = useRef<HTMLUListElement>(null);
+  const popperRef = useRef(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
   useClickOutside(elementRef, close, popperRef);

@@ -32,7 +32,7 @@ if (isProd) {
             await mainWindow.loadURL(`http://localhost:${port}/${link.split('macrocosm://callback/')[1]}`);
         }
     });
-    let pyshell = new PythonShell(path.join(app.getAppPath(), 'python_scripts/api.py'), {pythonPath: `${os.homedir()}/miniconda3/python.exe`});
+    let pyshell = new PythonShell(path.join(process.resourcesPath, 'python_scripts/api.py'), {pythonPath: `${os.homedir()}/miniconda3/python.exe`});
     pyshell.end(function (err) {
         if (err){
             throw err;
