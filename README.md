@@ -10,5 +10,5 @@ STEPS for Dev Environment
 5). Run - npm run dev 
 6) Download v2-1_768-ema-pruned.ckpt and add it to your desktop  (https://huggingface.co/stabilityai/stable-diffusion-2-1/blob/main/v2-1_768-ema-pruned.ckpt)
 
-Concept for Production
-https://user-images.githubusercontent.com/92536005/227786610-312b8227-f04e-4da9-9f0d-bf69e2e39e45.png
+![Concept for Production](https://user-images.githubusercontent.com/92536005/227786610-312b8227-f04e-4da9-9f0d-bf69e2e39e45.png)
+
